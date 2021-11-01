@@ -1,0 +1,7 @@
+{
+	"name": "ie.itcarlow.screentransitions",
+	"version": "0.1.0",
+	"displayName": "ScreenTransition",
+	"description": "A component to allow NES-styled Camera movement to emulate screen transitions.",
+	"unity": "2019.4"
+ }
