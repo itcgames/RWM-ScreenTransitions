@@ -1,5 +1,5 @@
 {
-    "name": "Tests",
+    "name": "ScreenTransitionTests",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
