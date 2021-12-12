@@ -8,6 +8,7 @@ public enum TransitionTypes
     HORIZONTAL, VERTICAL
 }
 
+
 [System.Serializable]
 public class TransitionPoint
 {
