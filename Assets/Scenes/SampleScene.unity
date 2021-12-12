@@ -156,16 +156,6 @@ MonoBehaviour:
   transitionPoints:
   - transitionPoint: {x: 0.9299698, y: -3.0750284}
     type: 0
-  - transitionPoint: {x: 4.6984344, y: -1.4841841}
-    type: 0
-  - transitionPoint: {x: 8.568381, y: -2.1733212}
-    type: 0
-  - transitionPoint: {x: 6.308422, y: -4.803767}
-    type: 0
-  - transitionPoint: {x: 9.161159, y: -7.1007757}
-    type: 0
-  - transitionPoint: {x: 11.776119, y: -8.860501}
-    type: 0
 --- !u!81 &397884377
 AudioListener:
   m_ObjectHideFlags: 0

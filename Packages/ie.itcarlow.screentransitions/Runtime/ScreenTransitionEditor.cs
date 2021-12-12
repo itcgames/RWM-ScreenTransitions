@@ -40,6 +40,35 @@ public class ScreenTransitionEditor : Editor
             }
         }
 
+        // draw lines between all points in the vector
+        if (sT.transitionPoints.Count > 0)
+        {
+            Handles.DrawLine(mainCam.transform.position, sT.transitionPoints[0].transitionPoint);
+
+            for (int i = 0; i < sT.transitionPoints.Count; i++)
+            {
+                if (i + 1 >= sT.transitionPoints.Count)
+                {
+                    break;
+                }
+
+                Handles.DrawLine(sT.transitionPoints[i].transitionPoint, sT.transitionPoints[i + 1].transitionPoint);
+            }
+
+        }
+
+        // now draw a line from the last point added to the current point being edited
+        Handles.color = new Color(0, 1, 0, 1);
+
+        if (sT.transitionPoints.Count > 0)
+        {
+            Handles.DrawLine(sT.transitionPoints[sT.transitionPoints.Count - 1].transitionPoint, currPoint.transitionPoint);
+        }
+        else
+        {
+            Handles.DrawLine(mainCam.transform.position, currPoint.transitionPoint);
+        } 
+
         // handle point used to add new transition points to the list
         Vector2 newPos = Handles.PositionHandle(currPoint.transitionPoint, Quaternion.identity);
         currPoint.transitionPoint = newPos;
