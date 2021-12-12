@@ -1,4 +1,4 @@
-﻿//#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 
 using System.Collections;
 using System.Collections.Generic;
@@ -95,4 +95,4 @@ public class ScreenTransitionEditor : Editor
         base.OnInspectorGUI();
 	}
 }
-//#endif
+#endif
