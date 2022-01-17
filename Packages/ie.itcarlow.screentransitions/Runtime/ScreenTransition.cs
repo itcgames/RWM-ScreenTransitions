@@ -103,7 +103,7 @@ public class ScreenTransition : MonoBehaviour
             }
         }
 
-        cam.transform.position = pickedPoint.transitionPoint;
+        cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
         transitioning = false;
     }
 }
