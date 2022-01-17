@@ -155,7 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   transitionPoints:
-  - transitionPoint: {x: 6.58, y: 0}
+  - transitionPoint: {x: 20, y: 0}
     type: 0
   transitionSpeed: 2
   transitioning: 0

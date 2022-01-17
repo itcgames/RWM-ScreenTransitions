@@ -25,6 +25,8 @@ public class ScreenTransition : MonoBehaviour
 
     private Camera cam;
     private TransitionPoint pickedPoint;
+    private float minDistanceToStop = 0.1f;
+    private float speedCap = 10.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -76,15 +78,32 @@ public class ScreenTransition : MonoBehaviour
 
         normal = (pickedPoint.transitionPoint - point).normalized;
 
+        // if the user put the speed at an over the top amount
+        // it isn't possible for the camera to not reach the point in about 1 frame,
+        // so just place the camera at that point
+        bool tooFast = transitionSpeed > speedCap;
+
         // now that we have the normal, we can begin moving towards it
-        while (true)
+        while (!tooFast)
         { // camera stopping will be implemented in a later feature
             cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
                 cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
-
+            
             yield return new WaitForSeconds(0.01f);
+
+            // since the camera could be moving towards our transition point at any direction,
+            // we will do a simple check to see if the camera is close enough
+            // then set the camera's position to the specified point, and stop transitioning
+
+            float distanceToPoint = Vector2.Distance(cam.transform.position, pickedPoint.transitionPoint);
+
+            if(distanceToPoint < minDistanceToStop)
+            {
+                break;
+            }
         }
 
+        cam.transform.position = pickedPoint.transitionPoint;
         transitioning = false;
     }
 }
