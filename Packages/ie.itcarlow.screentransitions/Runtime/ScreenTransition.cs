@@ -21,9 +21,9 @@ public class ScreenTransition : MonoBehaviour
     public TransitionTypes type = TransitionTypes.HORIZONTAL;
     public List<TransitionPoint> transitionPoints;
     public float transitionSpeed = 2.0f;
+    public bool transitioning = false;
 
     private Camera cam;
-    private bool transitioning = false;
     private TransitionPoint pickedPoint;
 
     // Start is called before the first frame update
