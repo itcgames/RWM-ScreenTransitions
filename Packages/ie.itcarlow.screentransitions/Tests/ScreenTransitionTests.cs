@@ -83,6 +83,23 @@ namespace Tests
 
         }
 
+        [UnityTest]
+        public IEnumerator CameraStops()
+        {
+            setupCamera();
+
+            TransitionPoint point = new TransitionPoint();
+            point.transitionPoint = new Vector2(1.0f, 0.0f);
+            mainCam.GetComponent<ScreenTransition>().AddPoint(point);
+
+            mainCam.GetComponent<ScreenTransition>().BeginTransition(0);
+
+            yield return new WaitForSeconds(1.5f);
+
+            Assert.AreEqual(false, mainCam.GetComponent<ScreenTransition>().transitioning);
+
+        }
+
         private void setupCamera()
         {
             mainCam = Camera.main;
