@@ -156,9 +156,9 @@ MonoBehaviour:
   type: 0
   transitionPoints:
   - transitionPoint: {x: 20, y: -10}
-    type: 0
+    type: 2
   - transitionPoint: {x: 20, y: 0}
-    type: 0
+    type: 2
   transitionSpeed: 5
   transitioning: 0
   distanceToNextPoint: 0
@@ -250,7 +250,7 @@ GameObject:
   - component: {fileID: 671852061}
   - component: {fileID: 671852060}
   m_Layer: 0
-  m_Name: New Sprite (4)
+  m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 885677956}
   - component: {fileID: 885677955}
   m_Layer: 0
-  m_Name: New Sprite
+  m_Name: TopL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -412,7 +412,7 @@ GameObject:
   - component: {fileID: 973297900}
   - component: {fileID: 973297899}
   m_Layer: 0
-  m_Name: New Sprite (3)
+  m_Name: BottomL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -493,7 +493,7 @@ GameObject:
   - component: {fileID: 1117118528}
   - component: {fileID: 1117118527}
   m_Layer: 0
-  m_Name: New Sprite (6)
+  m_Name: TopMid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -574,7 +574,7 @@ GameObject:
   - component: {fileID: 1330588595}
   - component: {fileID: 1330588594}
   m_Layer: 0
-  m_Name: New Sprite (1)
+  m_Name: BottomR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -655,7 +655,7 @@ GameObject:
   - component: {fileID: 1445178223}
   - component: {fileID: 1445178222}
   m_Layer: 0
-  m_Name: New Sprite (8)
+  m_Name: MidR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -736,7 +736,7 @@ GameObject:
   - component: {fileID: 1543383645}
   - component: {fileID: 1543383644}
   m_Layer: 0
-  m_Name: New Sprite (7)
+  m_Name: MidL
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -817,7 +817,7 @@ GameObject:
   - component: {fileID: 1737404557}
   - component: {fileID: 1737404556}
   m_Layer: 0
-  m_Name: New Sprite (2)
+  m_Name: TopR
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -898,7 +898,7 @@ GameObject:
   - component: {fileID: 2117741572}
   - component: {fileID: 2117741571}
   m_Layer: 0
-  m_Name: New Sprite (5)
+  m_Name: BottomMid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
