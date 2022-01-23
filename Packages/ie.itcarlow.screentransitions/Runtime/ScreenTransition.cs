@@ -79,9 +79,22 @@ public class ScreenTransition : MonoBehaviour
         Vector2 normal;
         Vector2 point = cam.transform.position;
 
-        float calculatedSpeed = transitionSpeed * Time.deltaTime; ;
+        float calculatedSpeed = transitionSpeed * Time.deltaTime;
 
         normal = (pickedPoint.transitionPoint - point).normalized;
+
+        switch (pickedPoint.type)
+        {
+            case TransitionTypes.FREE: // camera moves directly towards transition point
+                normal = (pickedPoint.transitionPoint - new Vector2(cam.transform.position.x, cam.transform.position.y)).normalized;
+                break;
+            case TransitionTypes.HORIZONTAL: // camera moves along X Axis towards transition point's X Axis
+                normal = (pickedPoint.transitionPoint - new Vector2(cam.transform.position.x, 0)).normalized;
+                break;
+            case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
+                normal = (pickedPoint.transitionPoint - new Vector2(0, cam.transform.position.y)).normalized;
+                break;
+        }
 
         // if the user put the speed at an over the top amount
         // it isn't possible for the camera to not reach the point in about 1 frame,
@@ -109,7 +122,7 @@ public class ScreenTransition : MonoBehaviour
                 case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
                     break;
             }
-  
+
             yield return new WaitForSeconds(0.01f);
 
             // since the camera could be moving towards our transition point at any direction,
@@ -133,14 +146,15 @@ public class ScreenTransition : MonoBehaviour
                     break;
             }
 
-            if(distanceToPoint < minDistanceToStop)
+            if (distanceToPoint < minDistanceToStop)
             {
                 break;
             }
         }
 
-        Debug.Log("compelted");
         cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
         transitioning = false;
+
+        yield break; // stop the co-routine
     }
 }
