@@ -33,7 +33,7 @@ public class ScreenTransition : MonoBehaviour
     {
         // this component must be put on the main camera of the scene
         cam = Camera.main;
-        transitionSpeed = transitionSpeed * Time.deltaTime;
+
     }
 
     // Update is called once per frame
@@ -55,17 +55,20 @@ public class ScreenTransition : MonoBehaviour
 
     public void BeginTransition(int t_transitionTo)
     {
-        if (transitionPoints.Count > t_transitionTo) // if the point they passed in exists in the array
-        { // example, if there's 2 items, and they select point 1, 1 < 2, so it goes through
-            pickedPoint = transitionPoints[t_transitionTo];
-            StartCoroutine("transition");
+        if(!transitioning)
+        { // cannot enter a transition if already transitioning to a point
+            if (transitionPoints.Count > t_transitionTo) // if the point they passed in exists in the array
+            { // example, if there's 2 items, and they select point 1, 1 < 2, so it goes through
+                pickedPoint = transitionPoints[t_transitionTo];
+                StartCoroutine("transition");
+            }
+            else
+                Debug.LogWarning("Transition Point to move to does not exist! " +
+                    "You may have entered the wrong number. " +
+                    "Chosen Point:" + t_transitionTo +
+                    ", Number of Points: " + transitionPoints.Count + ".");
         }
-            
-        else
-            Debug.LogWarning("Transition Point to move to does not exist! " +
-                "You may have entered the wrong number. " +
-                "Chosen Point:" + t_transitionTo + 
-                ", Number of Points: " + transitionPoints.Count + ".");
+        
     }
 
     IEnumerator transition()
@@ -76,12 +79,14 @@ public class ScreenTransition : MonoBehaviour
         Vector2 normal;
         Vector2 point = cam.transform.position;
 
+        float calculatedSpeed = transitionSpeed * Time.deltaTime; ;
+
         normal = (pickedPoint.transitionPoint - point).normalized;
 
         // if the user put the speed at an over the top amount
         // it isn't possible for the camera to not reach the point in about 1 frame,
         // so just place the camera at that point
-        bool tooFast = transitionSpeed > speedCap;
+        bool tooFast = calculatedSpeed > speedCap;
 
         // now that we have the normal, we can begin moving towards it
         while (!tooFast)
@@ -90,16 +95,16 @@ public class ScreenTransition : MonoBehaviour
             switch (pickedPoint.type)
             {
                 case TransitionTypes.FREE: // camera moves directly towards transition point
-                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
-                    cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
+                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * calculatedSpeed),
+                    cam.transform.position.y + (normal.y * calculatedSpeed), cam.transform.position.z);
                     break;
                 case TransitionTypes.HORIZONTAL: // camera moves along X Axis towards transition point's X Axis
-                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
+                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * calculatedSpeed),
                     cam.transform.position.y, cam.transform.position.z);
                     break;
                 case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
                     cam.transform.position = new Vector3(cam.transform.position.x,
-                    cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
+                    cam.transform.position.y + (normal.y * calculatedSpeed), cam.transform.position.z);
                     break;
                 case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
                     break;
@@ -111,7 +116,22 @@ public class ScreenTransition : MonoBehaviour
             // we will do a simple check to see if the camera is close enough
             // then set the camera's position to the specified point, and stop transitioning
 
-            float distanceToPoint = Vector2.Distance(cam.transform.position, pickedPoint.transitionPoint);
+            float distanceToPoint = 0.0f;
+
+            switch (pickedPoint.type)
+            {
+                case TransitionTypes.FREE: // camera moves directly towards transition point
+                    distanceToPoint = Vector2.Distance(cam.transform.position, pickedPoint.transitionPoint);
+                    break;
+                case TransitionTypes.HORIZONTAL: // camera moves along X Axis towards transition point's X Axis
+                    distanceToPoint = Vector2.Distance(cam.transform.position, new Vector2(pickedPoint.transitionPoint.x, 0));
+                    break;
+                case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
+                    distanceToPoint = Vector2.Distance(cam.transform.position, new Vector2(0, pickedPoint.transitionPoint.y));
+                    break;
+                case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
+                    break;
+            }
 
             if(distanceToPoint < minDistanceToStop)
             {
@@ -119,6 +139,7 @@ public class ScreenTransition : MonoBehaviour
             }
         }
 
+        Debug.Log("compelted");
         cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
         transitioning = false;
     }
