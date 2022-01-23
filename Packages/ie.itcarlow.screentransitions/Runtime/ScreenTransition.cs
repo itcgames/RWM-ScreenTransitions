@@ -34,7 +34,6 @@ public class ScreenTransition : MonoBehaviour
     {
         // this component must be put on the main camera of the scene
         cam = Camera.main;
-
     }
 
     // Update is called once per frame
