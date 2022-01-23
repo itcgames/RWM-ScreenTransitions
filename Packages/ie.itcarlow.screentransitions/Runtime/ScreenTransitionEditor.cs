@@ -10,7 +10,7 @@ using UnityEngine;
 public class ScreenTransitionEditor : Editor
 {
     private ScreenTransition sT;
-    private TransitionPoint currPoint = new TransitionPoint();
+    public TransitionPoint currPoint;
 	private Camera mainCam;
 
     private void OnEnable()
@@ -18,7 +18,7 @@ public class ScreenTransitionEditor : Editor
 		// Method 1
 		mainCam = Camera.main;
 		sT = mainCam.GetComponent<ScreenTransition>();
-        currPoint.transitionPoint = mainCam.transform.position + new Vector3(1, 1, 0);
+        currPoint = sT.currPoint;
 	}
 
     protected virtual void OnSceneGUI()
@@ -79,7 +79,6 @@ public class ScreenTransitionEditor : Editor
 	{
 		if (GUILayout.Button("Add Point"))
 		{
-            currPoint.type = sT.type;
             Vector2 vec = currPoint.transitionPoint;
             sT.AddPoint(currPoint);
             currPoint = new TransitionPoint();

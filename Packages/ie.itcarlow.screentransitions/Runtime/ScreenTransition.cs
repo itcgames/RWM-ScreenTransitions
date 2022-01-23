@@ -13,19 +13,19 @@ public enum TransitionTypes
 public class TransitionPoint
 {
     public Vector2 transitionPoint;
-    public TransitionTypes type = TransitionTypes.HORIZONTAL;
+    public TransitionTypes type;
 }
 
 public class ScreenTransition : MonoBehaviour
 {
-    public TransitionTypes type = TransitionTypes.HORIZONTAL;
+    public TransitionPoint currPoint = new TransitionPoint();
     public List<TransitionPoint> transitionPoints;
     public float transitionSpeed = 2.0f;
     public bool transitioning = false;
 
     private Camera cam;
     private TransitionPoint pickedPoint;
-    public float distanceToNextPoint = 0.0f;
+    private float distanceToNextPoint = 0.0f;
     private float minDistanceToStop = 0.1f;
     private float speedCap = 10.0f;
 
