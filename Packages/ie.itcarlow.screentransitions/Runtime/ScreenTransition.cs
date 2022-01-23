@@ -25,6 +25,7 @@ public class ScreenTransition : MonoBehaviour
 
     private Camera cam;
     private TransitionPoint pickedPoint;
+    public float distanceToNextPoint = 0.0f;
     private float minDistanceToStop = 0.1f;
     private float speedCap = 10.0f;
 
@@ -39,7 +40,13 @@ public class ScreenTransition : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (distanceToNextPoint < minDistanceToStop && transitioning)
+        {
+            StopCoroutine("transition");
 
+            cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
+            transitioning = false;
+        }
     }
 
     public void AddPoint(TransitionPoint t_point)
@@ -83,6 +90,8 @@ public class ScreenTransition : MonoBehaviour
 
         normal = (pickedPoint.transitionPoint - point).normalized;
 
+        Debug.Log("normal: " + normal);
+
         switch (pickedPoint.type)
         {
             case TransitionTypes.FREE: // camera moves directly towards transition point
@@ -123,38 +132,22 @@ public class ScreenTransition : MonoBehaviour
                     break;
             }
 
-            yield return new WaitForSeconds(0.01f);
-
-            // since the camera could be moving towards our transition point at any direction,
-            // we will do a simple check to see if the camera is close enough
-            // then set the camera's position to the specified point, and stop transitioning
-
-            float distanceToPoint = 0.0f;
-
             switch (pickedPoint.type)
             {
                 case TransitionTypes.FREE: // camera moves directly towards transition point
-                    distanceToPoint = Vector2.Distance(cam.transform.position, pickedPoint.transitionPoint);
+                    distanceToNextPoint = Vector2.Distance(cam.transform.position, pickedPoint.transitionPoint);
                     break;
                 case TransitionTypes.HORIZONTAL: // camera moves along X Axis towards transition point's X Axis
-                    distanceToPoint = Vector2.Distance(cam.transform.position, new Vector2(pickedPoint.transitionPoint.x, 0));
+                    distanceToNextPoint = Mathf.Abs(cam.transform.position.x - pickedPoint.transitionPoint.x);
                     break;
                 case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
-                    distanceToPoint = Vector2.Distance(cam.transform.position, new Vector2(0, pickedPoint.transitionPoint.y));
+                    distanceToNextPoint = Mathf.Abs(cam.transform.position.y - pickedPoint.transitionPoint.y);
                     break;
                 case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
                     break;
             }
 
-            if (distanceToPoint < minDistanceToStop)
-            {
-                break;
-            }
+            yield return new WaitForSeconds(0.01f);
         }
-
-        cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
-        transitioning = false;
-
-        yield break; // stop the co-routine
     }
 }

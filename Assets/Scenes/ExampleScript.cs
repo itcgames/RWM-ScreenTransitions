@@ -16,7 +16,13 @@ public class ExampleScript : MonoBehaviour
         if(Input.GetKeyDown("space"))
         {
             this.GetComponent<ScreenTransition>().BeginTransition(0);
-            Debug.Log("space pressed");
+            Debug.Log("space pressed, going to point 1");
+        }
+
+        if (Input.GetKeyDown("z"))
+        {
+            this.GetComponent<ScreenTransition>().BeginTransition(1);
+            Debug.Log("z pressed, going to point 2");
         }
     }
 }
