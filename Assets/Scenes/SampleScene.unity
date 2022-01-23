@@ -153,15 +153,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fd17ebb69c343c4a9d130a49d2eac15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  currPoint:
+    transitionPoint: {x: 20, y: 0}
+    type: 3
   transitionPoints:
   - transitionPoint: {x: 20, y: -10}
-    type: 2
+    type: 3
   - transitionPoint: {x: 20, y: 0}
-    type: 2
+    type: 3
   transitionSpeed: 5
   transitioning: 0
-  distanceToNextPoint: 0
 --- !u!81 &397884377
 AudioListener:
   m_ObjectHideFlags: 0

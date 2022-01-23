@@ -5,7 +5,7 @@ using UnityEditor;
 
 public enum TransitionTypes
 {
-    FREE, HORIZONTAL, VERTICAL, FADE
+    FREE, HORIZONTAL, VERTICAL, INSTANT
 }
 
 
@@ -43,7 +43,6 @@ public class ScreenTransition : MonoBehaviour
         if (distanceToNextPoint < minDistanceToStop && transitioning)
         {
             StopCoroutine("transition");
-
             cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
             transitioning = false;
         }
@@ -80,6 +79,15 @@ public class ScreenTransition : MonoBehaviour
 
     IEnumerator transition()
     {
+        if(pickedPoint.type == TransitionTypes.INSTANT)
+        { // if the camera should move instantly, don't bother with the rest of the function
+            cam.transform.position = new Vector3(pickedPoint.transitionPoint.x, pickedPoint.transitionPoint.y, cam.transform.position.z);
+            transitioning = false; // set to false in case of the variable being set to true elsewhere
+
+            yield break; // we are done now, so break out of the co-routine
+        }
+
+
         transitioning = true;
         // first we will get a vector towards the transition point,
         // so we can move smoothly towards it
@@ -89,8 +97,6 @@ public class ScreenTransition : MonoBehaviour
         float calculatedSpeed = transitionSpeed * Time.deltaTime;
 
         normal = (pickedPoint.transitionPoint - point).normalized;
-
-        Debug.Log("normal: " + normal);
 
         switch (pickedPoint.type)
         {
@@ -128,8 +134,6 @@ public class ScreenTransition : MonoBehaviour
                     cam.transform.position = new Vector3(cam.transform.position.x,
                     cam.transform.position.y + (normal.y * calculatedSpeed), cam.transform.position.z);
                     break;
-                case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
-                    break;
             }
 
             switch (pickedPoint.type)
@@ -142,8 +146,6 @@ public class ScreenTransition : MonoBehaviour
                     break;
                 case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
                     distanceToNextPoint = Mathf.Abs(cam.transform.position.y - pickedPoint.transitionPoint.y);
-                    break;
-                case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
                     break;
             }
 

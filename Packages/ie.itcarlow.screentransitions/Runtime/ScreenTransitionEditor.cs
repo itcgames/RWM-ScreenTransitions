@@ -79,10 +79,10 @@ public class ScreenTransitionEditor : Editor
 	{
 		if (GUILayout.Button("Add Point"))
 		{
-            Vector2 vec = currPoint.transitionPoint;
-            sT.AddPoint(currPoint);
-            currPoint = new TransitionPoint();
-            currPoint.transitionPoint = vec;
+            TransitionPoint newPoint = new TransitionPoint();
+            newPoint.transitionPoint = currPoint.transitionPoint;
+            newPoint.type = currPoint.type;
+            sT.AddPoint(newPoint);
         }
 
         if (GUILayout.Button("Remove Last Point"))
