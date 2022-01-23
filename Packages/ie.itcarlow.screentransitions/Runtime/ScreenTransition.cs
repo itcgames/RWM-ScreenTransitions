@@ -5,7 +5,7 @@ using UnityEditor;
 
 public enum TransitionTypes
 {
-    HORIZONTAL, VERTICAL
+    FREE, HORIZONTAL, VERTICAL, FADE
 }
 
 
@@ -86,9 +86,25 @@ public class ScreenTransition : MonoBehaviour
         // now that we have the normal, we can begin moving towards it
         while (!tooFast)
         { // camera stopping will be implemented in a later feature
-            cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
-                cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
-            
+
+            switch (pickedPoint.type)
+            {
+                case TransitionTypes.FREE: // camera moves directly towards transition point
+                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
+                    cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
+                    break;
+                case TransitionTypes.HORIZONTAL: // camera moves along X Axis towards transition point's X Axis
+                    cam.transform.position = new Vector3(cam.transform.position.x + (normal.x * transitionSpeed),
+                    cam.transform.position.y, cam.transform.position.z);
+                    break;
+                case TransitionTypes.VERTICAL:  // camera moves along Y Axis towards transition point's Y Axis
+                    cam.transform.position = new Vector3(cam.transform.position.x,
+                    cam.transform.position.y + (normal.y * transitionSpeed), cam.transform.position.z);
+                    break;
+                case TransitionTypes.FADE: // camera fades to black before teleporting to desired point, then fades back to normal
+                    break;
+            }
+  
             yield return new WaitForSeconds(0.01f);
 
             // since the camera could be moving towards our transition point at any direction,
